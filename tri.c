@@ -8,7 +8,7 @@ int main()
 
     int height_half = height/2;
 
-    int crnt_row = 1, row_hash = 1, space_num = 0,hash = 0; //row hash = maximum number of hash per row, hash = current hash, crnt_row = row that is being worked on.
+    int crnt_row = 1, row_hash = 1, space_num = 0,hash = 0; //row hash = maximum number of hash per row, hash = current hash, crnt_row = row that is being worked on, space num = counter for how many spaces have been printed
     
     int row2_space = height-1; // maximum number of space before the 2nd triangle.
 
@@ -16,11 +16,11 @@ int main()
     {
 
         /*--- top triangle ---*/
-        if(crnt_row <= height_half) //the top triangle will take up exactly half of the total heigh, like 20 rows if height is 40.
+        if(crnt_row <= height_half) //the top triangle will take up exactly half of the total height, i.e half height = 20 rows if height is 40.
         {
             for(space_num = 0; space_num < (height-crnt_row); space_num++)
             {  
-                printf(" ");  //determines how many space before  hash'es of the top triangle
+                printf(" ");  //determines how many space before  hashes of the top triangle
 
             }
 
@@ -32,12 +32,11 @@ int main()
             row_hash += 2; //keeps number of hash per row always odd
              if(crnt_row == height_half)
             {
-                row_hash = 1; //resets it for the 2 triangles
+                row_hash = 1; //resets it for the bottom 2 triangles
             }
         }
         else
         {   
-           
 
             /*---- first triangle----- */
             
