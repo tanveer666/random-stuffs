@@ -8,7 +8,7 @@ int main()
 
     int height_half = height/2;
 
-    int crnt_row = 1, row_hash = 1, space_num = 0,hash = 0; //row hash = maximum number of hash per row, hash = current hash
+    int crnt_row = 1, row_hash = 1, space_num = 0,hash = 0; //row hash = maximum number of hash per row, hash = current hash, crnt_row = row that is being worked on.
     
     int row2_space = height-1; // maximum number of space before the 2nd triangle.
 
