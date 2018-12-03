@@ -63,8 +63,8 @@ int main()
             }
 
             height_half--;
-            row_hash += 2;
-            row2_space -= 2;
+            row_hash += 2; //same as row_hash = row_hash +2
+            row2_space -= 2; //same as row_space = rowspace -2;
         }
 
         printf("\n");
