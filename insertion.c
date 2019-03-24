@@ -8,6 +8,14 @@
  * And to use it for a particular datatype, the funtion pointer is used!
  */
 
+
+/* 
+ * How it works:
+ * Go through every element of the unsorted array, on each pass take one unsorted value, and compare to the value left of it (which should be smaller)
+ * IF the value to the left is not smaller (or is larger), take the left value, shift it one place right, and point to one element left to it. 
+ * (so if 1 3 5 2, compare(5,2); take 5, copy 5 to 2; compare (3,2); take 3 copy it to 5, compare (1,2); stop loop; it now points it to 1, so copy 2 to the position 1 place right of 1)
+ * /
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
