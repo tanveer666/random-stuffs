@@ -1,0 +1,80 @@
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include "header.h"
+
+/** PARTITION FUNCTION **/
+
+int partition(void *data, int array_start, int array_end, int e_size, int (*fp_compare)(void *key1, void *key2))
+{
+    char *arr = (char *)data; //converts the incoming array to char so that it can be addressed by each byte
+    void *pivot_val;          // This variable holds the current pivot value (or the partition value depending on who you ask).
+    void *temp_val;           // This is to hold temporary value while moving data
+    int pivot_select[3];      //This array will contain the index of 3 random value inside the array, the middle r[1] will contain the index of the (value of) pivot_val.
+
+    /* *** STORAGE ALLOCATION *** */
+
+    if ((pivot_val = malloc(e_size)) == NULL)
+        return 1001;
+    if ((temp_val = malloc(e_size)) == NULL)
+        return 1001;
+
+    /* *** MEDIAN OF 3 METHOD TO FIND INITIAL partition value (which is also the pivot) *** */
+
+    srand(time(NULL)); //seeds the rand function with time
+
+    pivot_select[0] = (rand() % (array_start - array_end + 1)) + array_start; // rand % total elements + start of array.
+    pivot_select[1] = (rand() % (array_start - array_end + 1)) + array_start;
+    pivot_select[2] = (rand() % (array_start - array_end + 1)) + array_start;
+    inssort(pivot_select, sizeof pivot_select, sizeof pivot_select / sizeof pivot_select[0], isBiggerInt);
+    memcpy(pivot_val, &pivot_select[1], sizeof pivot_val);
+
+    /* *** FIND THE SORTED POSITION OF THE PIVOT_VAL IN THE ARRAY, THIS SORTED POSITION WILL PARTITION THE ARRAY INTO 2 *** */
+
+    while (array_start <= array_end) //continue as long as array_start is smaller than array_end
+    {
+
+        while (fp_compare(&arr[e_size * array_start], pivot_val) < 0)
+        //Continue increment as long as the value being compared is smaller than pivot
+        {
+            array_start++;
+        }
+
+        while (fp_compare(&arr[e_size * array_end], pivot_val) > 0)
+        //Continue decrement as long as the value being compared is larger than pivot
+        {
+            array_end--;
+        }
+
+        /* SWAP THE value larger value from left with the smalelr value from right */
+        memcpy(temp_val, &arr[array_start * e_size], e_size);
+        memcpy(&arr[array_start * e_size], &arr[array_end * e_size], e_size);
+        memcpy(&arr[array_end], temp_val, e_size);
+    }
+
+    free(pivot_val);
+    free(temp_val);
+
+    return array_end;
+}
+
+/* ***QUICK SORT*** */
+
+int qk_sort(void *data, int array_size, int e_size, int high, int low, int (*compare)(void *key1, void *key2))
+{
+    int partition_index;
+
+    while (low < high)
+    {
+        if ((partition_index = partition(data, low, high, e_size, compare)) < 0) //find the partition value of a particular array
+            return -1;
+
+        if (qk_sort(data, array_size, e_size, low, partition_index, compare) < 0) // Call quick sort on the left partition
+            return -2;
+
+        if (qk_sort(data, array_size, e_size, partition_index + 1, high, compare) < 0) // call quicksort on the right partition
+            return -3;
+    }
+
+    return 0;
+}
